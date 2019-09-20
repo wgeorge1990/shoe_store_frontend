@@ -3,7 +3,8 @@ import { Container, Segment, Form, Button, Input, Grid } from 'semantic-ui-react
 
 export default class Upload extends React.Component {
     state = {
-        image: null
+        image: null,
+        images: []
     }
 
     fileHandler = (e) => {
@@ -24,21 +25,20 @@ export default class Upload extends React.Component {
             body: formData
         }
         fetch(url, options)
-            .then(res => res.json).then(res => console.log(res.url))
+            .then(res => res.json).then(res => this.setState({images: this.state.images.push(res.url)}))
     };
 
     render() {
         return (
             <div>Upload Component
-            <Form onSubmit={(e) => this.handleSubmit(e)}>
-                <Form.Input
-                    label='File'
-                    name='file'
-                    type="file"
-                    onChange={(e) => this.fileHandler(e)} />
+                <Form onSubmit={(e) => this.handleSubmit(e)}>
+                    <Form.Input
+                        label='File'
+                        name='file'
+                        type="file"
+                        onChange={(e) => this.fileHandler(e)} />
                     <Button type="submit">Pin Image</Button>
-                </Form>
-                
+                </Form> 
             </div>
         )
     }
